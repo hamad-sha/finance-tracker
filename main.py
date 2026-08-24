@@ -1,5 +1,7 @@
 balance = 0
-transactions = []
+transactions = [
+]
+from tabulate import tabulate
 def display_menu():
     print("\n--- Finance Tracker ---")
     print("1. Add income")
@@ -21,6 +23,8 @@ def choice_select():
 def display_balance():
     print(f"Current balance: {balance}")
 def transaction():
+    category = input("What is the category of your payment?")
+    description = input("Small description regarding your payment.")
     global balance
     transaction_amount = float(input("Enter your income/expense."))
     balance = balance + transaction_amount
@@ -28,6 +32,23 @@ def transaction():
         print(f"Your income inputted: {transaction_amount}")
     else:
         print(f"Your expense inputted: {transaction_amount}")
+    transaction = {
+        "Category" : category,
+        "Amount" : transaction_amount,
+        "Description" : description
+    }
+    transactions.append(transaction)
+def display_transactions():
+    if len(transactions) == 0:
+        print("No transaction has occcured!")
+        input()
+    else:
+        counter = 0
+        for transaction in transactions:
+            counter = counter + 1
+            print(tabulate(transactions, headers="keys", tablefmt="grid"))
+        input()
+
 display_menu()
 choice = choice_select()
 while choice != 5:

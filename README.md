@@ -1,2 +1,2 @@
 # finance-tracker
-A simple finance tracker to round out my Python skills.
+A simple CLI-based finance tracker to round out my Python skills.
