@@ -8,7 +8,8 @@ def display_menu():
     print("2. Add expense")
     print("3. View balance")
     print("4. View transactions")
-    print("5. Exit")
+    print("5. Search a transaction")
+    print("6. Exit")
 def choice_select():
     while True:
         try:
@@ -22,6 +23,7 @@ def choice_select():
             print("Enter a valid number!")
 def display_balance():
     print(f"Current balance: {balance}")
+    input()
 def transaction():
     category = input("What is the category of your payment?")
     description = input("Small description regarding your payment.")
@@ -44,20 +46,47 @@ def display_transactions():
         input()
     else:
         counter = 0
-        for transaction in transactions:
-            counter = counter + 1
-            print(tabulate(transactions, headers="keys", tablefmt="grid"))
+        print(tabulate(transactions, headers="keys", tablefmt="grid"))
         input()
-
+def search_transaction():
+    if len(transactions) == 0:
+        print("No transactions have occured!")
+        input()
+        return 
+    search_term = input("What category do you want to search for?")
+    search_item = input("Enter the item for searching.")
+    check = False
+    if search_term in ["Category","Amount","Description"]:
+        match search_term:
+            case "Category":
+                for transaction in transactions:
+                    if transaction["Category"] == search_item:
+                        check = True
+                        print(f"{transaction["Category"]}|{transaction["Amount"]}|{transaction["Description"]}")
+            case "Amount":
+                for transaction in transactions:
+                                if transaction["Amount"] == float(search_item):
+                                    check = True
+                                    print(f"{transaction["Category"]}|{transaction["Amount"]}|{transaction["Description"]}")
+            case "Description":
+                for transaction in transactions:
+                    if transaction["Description"] == search_item:
+                        check = True
+                        print(f"{transaction["Category"]}|{transaction["Amount"]}|{transaction["Description"]}")
+        if check == False:
+            print("No Matching record!")
+        input()
 display_menu()
 choice = choice_select()
-while choice != 5:
+while choice != 6:
     if choice in (1,2):
         transaction()
     elif choice == 3:
         display_balance()
     elif choice == 4:
         display_transactions()
+    elif choice == 5:
+        search_transaction()
     display_menu()
     choice = choice_select()
 
