@@ -1,7 +1,14 @@
-balance = 0
-transactions = [
-]
+import csv
 from tabulate import tabulate
+FILENAME = "transactions.csv"
+balance = 0
+transactions = []
+def save_transaction():
+    with open(FILENAME, "w", newline="") as file:
+        fieldnames = ["Category","Amount","Description"]
+        writer = csv.DictWriter(file, fieldnames)
+        writer.writeheader()
+        writer.writerows(transactions)
 def display_menu():
     print("\n--- Finance Tracker ---")
     print("1. Add income")
@@ -37,6 +44,7 @@ def deposit():
         "Description" : description
     }
     transactions.append(transaction)
+    save_transaction()
 def withdraw():
     category = input("What is the category of your withdraw?")
     description = input("Small description regarding your withdraw.")
@@ -50,6 +58,7 @@ def withdraw():
         "Description" : description
     }
     transactions.append(transaction)
+    save_transaction()
 def display_transactions():
     if len(transactions) == 0:
         print("No transaction has occcured!")
